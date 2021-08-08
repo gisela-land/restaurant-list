@@ -25,7 +25,7 @@ app.get('/restaurants/:rest_id', (req, res) => {
 })
 
 app.get('/search', (req, res) => {
-  const keyword = req.query.keyword
+  const keyword = req.query.keyword.trim()
   const restaurants = restaurantList.results.filter((rest) => {
     if (cateLists.includes(keyword)) {
       return rest.category.includes(keyword)
