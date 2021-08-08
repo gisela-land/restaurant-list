@@ -4,6 +4,8 @@ const restaurantList = require('./restaurant.json')
 const app = express()
 const port = 3000
 
+const cateLists = ['中東料理', '日本料理', '義式餐廳', '美式', '酒吧', '咖啡']
+
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 
@@ -25,7 +27,11 @@ app.get('/restaurants/:rest_id', (req, res) => {
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword
   const restaurants = restaurantList.results.filter((rest) => {
-    return rest.name.toLowerCase().includes(keyword.toLowerCase())
+    if (cateLists.includes(keyword)) {
+      return rest.category.includes(keyword)
+    } else {
+      return rest.name.toLowerCase().includes(keyword.toLowerCase())
+    }
   })
   let hasResults = false
   if (restaurants.length > 0) {
